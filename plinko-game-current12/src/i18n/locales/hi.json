@@ -1,0 +1,28 @@
+{
+  "play": "खेलें",
+  "bet": "दांव",
+  "balance": "शेष राशि",
+  "multiplier": "गुणक",
+  "history": "इतिहास",
+  "settings": "सेटिंग्स",
+  "language": "भाषा",
+  "sound": "ध्वनि",
+  "exit": "बाहर निकलें",
+  "confirmExit": "क्या आप वाकई बाहर निकलना चाहते हैं?",
+  "yes": "हाँ",
+  "no": "नहीं",
+  "ballsInGame": "खेल में गेंदें",
+  "lines": "पंक्तियाँ",
+  "deposit": "बैलेंस जमा करें",
+  "buyPPs": "{{amount}} PPs खरीदें ({{stars}} Stars)",
+  "selectLanguage": "अपनी भाषा चुनें",
+  "zeroBalanceTitle": "अपना बैलेंस कैसे रिचार्ज करें?",
+  "zeroBalanceSteps": [
+    "1. @PremiumBot पर जाएं और Stars खरीदें।",
+    "2. Stars खरीदने के बाद, @plinostar_bot खोलें।",
+    "3. 'रिचार्ज' बटन दबाएं और PPs प्राप्त करने के लिए Stars से भुगतान करें।",
+    "4. सफल भुगतान के बाद, आप खेल सकते हैं!"
+  ],
+  "goToPremiumBot": "PremiumBot पर जाएं",
+  "goToPlinoBot": "PlinoBOT पर जाएं"
+}

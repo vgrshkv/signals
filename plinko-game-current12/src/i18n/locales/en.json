@@ -1,0 +1,28 @@
+{
+  "play": "PLAY",
+  "bet": "BET",
+  "balance": "Balance",
+  "multiplier": "Multiplier",
+  "history": "History",
+  "settings": "Settings",
+  "language": "Language",
+  "sound": "Sound",
+  "exit": "Exit",
+  "confirmExit": "Do you really want to leave?",
+  "yes": "Yes",
+  "no": "No",
+  "ballsInGame": "Balls in game",
+  "lines": "Lines",
+  "deposit": "Deposit",
+  "buyPPs": "Buy {{amount}} PPs ({{stars}} Stars)",
+  "selectLanguage": "Select your language",
+  "zeroBalanceTitle": "How to top up your balance?",
+  "zeroBalanceSteps": [
+    "1. Go to @PremiumBot and buy Stars.",
+    "2. After purchasing Stars, open @plinostar_bot.",
+    "3. Click the 'Top up' button and pay with Stars to get PPs.",
+    "4. After successful payment, you can play!"
+  ],
+  "goToPremiumBot": "Go to PremiumBot",
+  "goToPlinoBot": "Go to PlinoBOT"
+}

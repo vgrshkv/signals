@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@India_Best_Bot - Signals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden; /* Убираем прокрутку */
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Частицы для эффекта */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 215, 0, 0.5);
+            border-radius: 50%;
+            animation: float 10s infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+            100% { text-shadow: 0 0 15px rgba(255, 215, 0, 1); }
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: zoomIn 0.5s ease-in;
+        }
+
+        @keyframes zoomIn {
+            0% { opacity: 0; transform: scale(0.8) rotate(-5deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        .game-option {
+            background: linear-gradient(45deg, #FFD700, #ffea00);
+            color: #1a1a2e;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-option::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.4), transparent);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .game-option:hover::before {
+            opacity: 1;
+        }
+
+        .game-option:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+
+        .game-option.recommended::after {
+            content: "★ Recommended - More Money!";
+            display: block;
+            font-size: 0.9rem;
+            color: #1a1a2e;
+            margin-top: 5px;
+            text-shadow: none;
+        }
+
+        /* Aviator */
+        .aviator-logo {
+            width: 120px;
+            height: 120px;
+            background: url('https://via.placeholder.com/120?text=✈️') no-repeat center;
+            background-size: contain;
+            margin: 0 auto 25px;
+            animation: fly 3s infinite ease-in-out;
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
+        }
+
+        @keyframes fly {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(5deg); }
+        }
+
+        .aviator-signal {
+            margin: 20px 0;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+        }
+
+        /* Mines */
+        .mines-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            width: 100%;
+            max-width: 320px;
+            margin: 25px auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .mines-cell {
+            width: 100%;
+            padding-top: 100%;
+            background: #238DA6;
+            border-radius: 8px;
+            position: relative;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .mines-cell.revealed {
+            background: #FFD700;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+
+        .mines-cell.revealed::after {
+            content: "★";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.8rem;
+            color: #1a1a2e;
+            animation: starPop 0.5s, shake 0.5s 0.5s;
+        }
+
+        @keyframes starPop {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        @keyframes shake {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            20% { transform: translate(-50%, -50%) rotate(-10deg); }
+            40% { transform: translate(-50%, -50%) rotate(10deg); }
+            60% { transform: translate(-50%, -50%) rotate(-8deg); }
+            80% { transform: translate(-50%, -50%) rotate(8deg); }
+            100% { transform: translate(-50%, -50%) rotate(0deg); }
+        }
+
+        /* Кнопки */
+        .signal-btn {
+            background: linear-gradient(45deg, #FFD700, #ffea00);
+            color: #1a1a2e;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin: 15px 0;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signal-btn.disabled {
+            background: #888;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .signal-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.5s;
+        }
+
+        .signal-btn:hover:not(.disabled)::after {
+            left: 100%;
+        }
+
+        .signal-btn:hover:not(.disabled) {
+            background: linear-gradient(45deg, #ffea00, #FFD700);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+
+        .signal-btn:active:not(.disabled) {
+            transform: scale(0.95);
+        }
+
+        .back-btn {
+            background: linear-gradient(45deg, #e63946, #f94144);
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+            box-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(45deg, #f94144, #e63946);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(230, 57, 70, 0.8);
+        }
+
+        .telegram-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #0088cc;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .telegram-link:hover {
+            background: #00aaff;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 136, 204, 0.7);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .container { padding: 15px; max-width: 100%; }
+            .game-option { font-size: 1rem; padding: 15px; }
+            .mines-grid { max-width: 250px; }
+            .mines-cell.revealed::after { font-size: 1.5rem; }
+            .signal-btn { font-size: 1.1rem; padding: 12px 20px; }
+            .back-btn { font-size: 1rem; padding: 10px 20px; }
+            .aviator-logo { width: 100px; height: 100px; }
+            .aviator-signal { font-size: 1.5rem; }
+        }
+
+        @media (max-width: 400px) {
+            h1 { font-size: 1.8rem; }
+            .mines-grid { max-width: 200px; }
+            .signal-btn, .back-btn { padding: 10px 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    <div class="container">
+        <!-- Главное меню -->
+        <div class="section active" id="menu">
+            <h1>@India_Best_Bot</h1>
+            <div class="game-option recommended" onclick="showSection('mines')">Mines</div>
+            <div class="game-option" onclick="showSection('aviator')">Aviator</div>
+            <a href="https://t.me/India_Best_Bot" class="telegram-link" target="_blank">Join @India_Best_Bot</a>
+        </div>
+
+        <!-- Mines -->
+        <div class="section" id="mines">
+            <h1>Mines</h1>
+            <div class="mines-grid" id="minesGrid"></div>
+            <button class="signal-btn" id="minesSignalBtn">SIGNAL</button>
+            <button class="back-btn" onclick="showSection('menu')">Back to Menu</button>
+            <a href="https://t.me/India_Best_Bot" class="telegram-link" target="_blank">Get More on @India_Best_Bot</a>
+        </div>
+
+        <!-- Aviator -->
+        <div class="section" id="aviator">
+            <h1>Aviator</h1>
+            <div class="aviator-logo"></div>
+            <div class="aviator-signal" id="aviatorSignal">Press SIGNAL to start!</div>
+            <button class="signal-btn" id="aviatorSignalBtn">SIGNAL</button>
+            <button class="back-btn" onclick="showSection('menu')">Back to Menu</button>
+            <a href="https://t.me/India_Best_Bot" class="telegram-link" target="_blank">Get More on @India_Best_Bot</a>
+        </div>
+    </div>
+
+    <audio id="starSound" src="star.mp3" preload="auto"></audio>
+
+    <script>
+        // Создание частиц
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.animationDelay = `${Math.random() * 10}s`;
+            particlesContainer.appendChild(particle);
+        }
+
+        // Инициализация Mines
+        const minesGrid = document.getElementById('minesGrid');
+        for (let i = 0; i < 25; i++) {
+            const cell = document.createElement('div');
+            cell.classList.add('mines-cell');
+            minesGrid.appendChild(cell);
+        }
+
+        // Переключение секций
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            if (sectionId === 'menu') resetSignals();
+            window.location.hash = sectionId; // Обновляем URL
+        }
+
+        function resetSignals() {
+            const cells = document.querySelectorAll('.mines-cell');
+            cells.forEach(cell => cell.classList.remove('revealed'));
+            document.getElementById('aviatorSignal').textContent = "Press SIGNAL to start!";
+        }
+
+        // Проверка URL при загрузке
+        window.onload = function() {
+            const hash = window.location.hash.slice(1);
+            if (hash === 'mines' || hash === 'aviator') {
+                showSection(hash);
+            } else {
+                showSection('menu');
+            }
+        };
+
+        // Кулдаун с отсчетом
+        function setCooldown(buttonId) {
+            const btn = document.getElementById(buttonId);
+            btn.classList.add('disabled');
+            btn.disabled = true;
+            let timeLeft = 5; // 5 секунд
+            btn.textContent = `WAIT ${timeLeft}s`;
+
+            const countdown = setInterval(() => {
+                timeLeft--;
+                btn.textContent = `WAIT ${timeLeft}s`;
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    btn.textContent = "SIGNAL";
+                    btn.classList.remove('disabled');
+                    btn.disabled = false;
+                }
+            }, 1000);
+        }
+
+        // Сигнал для Mines
+        let minesCooldown = false;
+        document.getElementById('minesSignalBtn').onclick = function() {
+            if (minesCooldown) return;
+            minesCooldown = true;
+            setCooldown('minesSignalBtn');
+
+            const cells = document.querySelectorAll('.mines-cell');
+            cells.forEach(cell => cell.classList.remove('revealed')); // Сброс предыдущих
+            const randomCells = [];
+            while (randomCells.length < 5) {
+                const rand = Math.floor(Math.random() * 25);
+                if (!randomCells.includes(rand)) randomCells.push(rand);
+            }
+            randomCells.forEach((index, i) => {
+                setTimeout(() => {
+                    cells[index].classList.add('revealed');
+                    try {
+                        const sound = new Audio('star.mp3');
+                        sound.volume = 1.0;
+                        sound.play().catch(e => console.warn('Audio play error:', e));
+                    } catch (e) {
+                        console.warn('Audio error:', e);
+                    }
+                }, i * 200); // Анимация с задержкой
+            });
+            setTimeout(() => minesCooldown = false, 5000); // Сброс кулдауна
+        };
+
+        // Сигнал для Aviator
+        let aviatorCooldown = false;
+        document.getElementById('aviatorSignalBtn').onclick = function() {
+            if (aviatorCooldown) return;
+            aviatorCooldown = true;
+            setCooldown('aviatorSignalBtn');
+
+            const min = 1.5;
+            const max = 3.5;
+            const signal = (Math.random() * (max - min) + min).toFixed(2); // Реалистичный x1.5-x3.5
+            document.getElementById('aviatorSignal').textContent = `Crash at x${signal}`;
+            setTimeout(() => aviatorCooldown = false, 5000); // Сброс кулдауна
+        };
+    </script>
+</body>
+</html>

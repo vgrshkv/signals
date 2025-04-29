@@ -1,0 +1,28 @@
+{
+  "play": "JOGAR",
+  "bet": "APOSTA",
+  "balance": "Saldo",
+  "multiplier": "Multiplicador",
+  "history": "Histórico",
+  "settings": "Configurações",
+  "language": "Idioma",
+  "sound": "Som",
+  "exit": "Sair",
+  "confirmExit": "Você realmente quer sair?",
+  "yes": "Sim",
+  "no": "Não",
+  "ballsInGame": "Bolas em jogo",
+  "lines": "Linhas",
+  "deposit": "Depositar",
+  "buyPPs": "Comprar {{amount}} PPs ({{stars}} Stars)",
+  "selectLanguage": "Selecione seu idioma",
+  "zeroBalanceTitle": "Como recarregar seu saldo?",
+  "zeroBalanceSteps": [
+    "1. Vá para @PremiumBot e compre Stars.",
+    "2. Após comprar Stars, abra @plinostar_bot.",
+    "3. Pressione o botão 'Recarregar' e pague com Stars para obter PPs.",
+    "4. Após o pagamento bem-sucedido, você poderá jogar!"
+  ],
+  "goToPremiumBot": "Ir para PremiumBot",
+  "goToPlinoBot": "Ir para PlinoBOT"
+}

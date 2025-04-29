@@ -3,14 +3,15 @@ import logging
 import asyncio
 from flask import Flask, request
 from aiogram import Bot, Dispatcher, types
+import json
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Bot and Dispatcher
-API_TOKEN = os.getenv('API_TOKEN')
-assert API_TOKEN, "API_TOKEN environment variable is required"
+API_TOKEN = '8059789021:AAAbbbCCCdddEEEfffGGGhhhIIIjjjKKK'  # hardcoded token
+PA_HOSTNAME = 'vgrshkv'  # hardcoded hostname
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
@@ -40,7 +41,7 @@ async def send_welcome(message: types.Message):
     for code, flag in LANGUAGES.items():
         kb.insert(types.InlineKeyboardButton(flag, callback_data=f'lang_{code}'))
     play_text = locale.get('play', 'Play')
-    game_url = f"https://{os.getenv('PA_HOSTNAME')}.pythonanywhere.com/signal.html"
+    game_url = f"https://{PA_HOSTNAME}.pythonanywhere.com/signal.html"
     kb.add(types.InlineKeyboardButton(play_text, url=game_url))
     photo_path = os.path.join(BASE_DIR, 'web', 'mines.png')
     with open(photo_path, 'rb') as photo:
@@ -55,7 +56,7 @@ async def change_lang(callback_query: types.CallbackQuery):
     for code, flag in LANGUAGES.items():
         kb.insert(types.InlineKeyboardButton(flag, callback_data=f'lang_{code}'))
     play_text = locale.get('play', 'Play')
-    game_url = f"https://{os.getenv('PA_HOSTNAME')}.pythonanywhere.com/signal.html"
+    game_url = f"https://{PA_HOSTNAME}.pythonanywhere.com/signal.html"
     kb.add(types.InlineKeyboardButton(play_text, url=game_url))
     await callback_query.message.edit_caption(caption=locale.get('welcome', ''), reply_markup=kb)
     await callback_query.answer()
@@ -84,7 +85,7 @@ def webhook():
 # On startup, set webhook
 async def on_startup():
     await bot.delete_webhook(drop_pending_updates=True)
-    webhook_url = f"https://{os.getenv('PA_HOSTNAME')}.pythonanywhere.com/{API_TOKEN}"
+    webhook_url = f"https://{PA_HOSTNAME}.pythonanywhere.com/{API_TOKEN}"
     await bot.set_webhook(webhook_url)
     logger.info(f"Webhook set to {webhook_url}")
 

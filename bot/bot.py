@@ -1,8 +1,8 @@
 import os
 import json
-from aiogram.utils import executor
 from aiogram import Bot, Dispatcher, types
 import logging
+import asyncio  # use asyncio for v3 polling
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -80,5 +80,11 @@ async def fallback(message: types.Message):
     await message.reply("Команда не распознана. Попробуйте /start.")
 
 if __name__ == '__main__':
-    logger.info('Starting polling of Telegram updates')
-    executor.start_polling(dp, skip_updates=True, on_startup=on_startup) 
+    async def main():
+        logger.info('Starting polling of Telegram updates')
+        # clear webhook if previously set
+        await on_startup(dp)
+        # start Aiogram v3 polling
+        await dp.start_polling(bot, skip_updates=True)
+
+    asyncio.run(main()) 

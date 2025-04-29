@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Bot and Dispatcher
-API_TOKEN = '8059789021:AAAbbbCCCdddEEEfffGGGhhhIIIjjjKKK'  # hardcoded token
+API_TOKEN = '8059789021:AAGwqdPR_cF_Z1VbDooFimdmzcWIbwpd5nk'  # real bot token
 PA_HOSTNAME = 'vgrshkv'  # hardcoded hostname
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)

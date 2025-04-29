@@ -2,7 +2,7 @@ import os
 import json
 from aiogram import Bot, Dispatcher, types
 import logging
-import asyncio  # use asyncio for v3 polling
+import asyncio
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -11,7 +11,7 @@ API_TOKEN = os.getenv('API_TOKEN', '8059789021:AAGwqdPR_cF_Z1VbDooFimdmzcWIbwpd5
 # Короткое имя мини-приложения, настроенное в BotFather
 GAME_SHORT_NAME = os.getenv('GAME_SHORT_NAME', 'mines_hack')
 bot = Bot(token=API_TOKEN)
-dp = Dispatcher(bot)
+dp = Dispatcher(bot=bot)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
@@ -69,7 +69,7 @@ async def handle_errors(update, exception):
     return True
 
 # Add a startup hook to clear any existing webhook
-async def on_startup(dp):
+async def on_startup():
     await bot.delete_webhook(drop_pending_updates=True)
     logger.info('Webhook cleared, pending updates dropped')
 
@@ -81,10 +81,11 @@ async def fallback(message: types.Message):
 
 if __name__ == '__main__':
     async def main():
+        # Clear any previous webhook
+        await on_startup()
         logger.info('Starting polling of Telegram updates')
-        # clear webhook if previously set
-        await on_startup(dp)
-        # start Aiogram v3 polling
-        await dp.start_polling(bot, skip_updates=True)
+        # Start polling (Aiogram v3)
+        await dp.start_polling(skip_updates=True)
 
+    # Run the bot
     asyncio.run(main()) 

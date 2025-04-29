@@ -66,28 +66,30 @@ async def handle_errors(update, exception):
     logger.exception(f"Unhandled exception in update {update}: {exception}")
     return True
 
-# Create Flask app
-def create_app():
-    app = Flask(__name__)
+# Simplify to one Flask app serving static and webhook
+app = Flask(__name__, static_folder='web', static_url_path='')
 
-    # Telegram webhook route
-    @app.route(f"/{API_TOKEN}", methods=['POST'])
-    def webhook():
-        update = types.Update(**request.get_json())
-        asyncio.get_event_loop().create_task(dp.process_update(update))
-        return '', 200
+@app.route('/')
+def index():
+    # Serve the main game page
+    return app.send_static_file('signal.html')
 
-    return app
+@app.route(f"/{API_TOKEN}", methods=['POST'])
+def webhook():
+    # Telegram webhook handler
+    update = types.Update(**request.get_json())
+    asyncio.get_event_loop().create_task(dp.process_update(update))
+    return '', 200
 
-# Setup webhook on startup
+# On startup, set webhook
 async def on_startup():
     await bot.delete_webhook(drop_pending_updates=True)
     webhook_url = f"https://{os.getenv('PA_HOSTNAME')}.pythonanywhere.com/{API_TOKEN}"
     await bot.set_webhook(webhook_url)
     logger.info(f"Webhook set to {webhook_url}")
 
-# Run setup
+# Run startup hook
 asyncio.get_event_loop().run_until_complete(on_startup())
 
-# Expose Flask app for WSGI
-application = create_app() 
+# Expose WSGI application
+application = app 

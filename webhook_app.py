@@ -28,6 +28,9 @@ LANGUAGES = {
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 LOCALES_DIR = os.path.join(BASE_DIR, 'bot', 'locales')
 
+# set working directory to project root for uWSGI
+os.chdir(BASE_DIR)
+
 def get_locale(lang: str) -> dict:
     path = os.path.join(LOCALES_DIR, f'{lang}.json')
     with open(path, encoding='utf-8') as f:
@@ -68,7 +71,7 @@ async def handle_errors(update, exception):
     return True
 
 # Simplify to one Flask app serving static and webhook
-app = Flask(__name__, static_folder='web', static_url_path='')
+app = Flask(__name__, static_folder=os.path.join(BASE_DIR, 'web'), static_url_path='')
 
 @app.route('/')
 def index():

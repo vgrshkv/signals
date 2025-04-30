@@ -1,0 +1,23 @@
+name: Deploy to Deta Space on push to main
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    name: Deploy to Deta Space
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Trigger Deta Space deployment
+        env:
+          DETA_SPACE_TOKEN: ${{ secrets.DETA_SPACE_TOKEN }}
+          DETA_PROJECT_ID: ${{ secrets.DETA_PROJECT_ID }}
+        run: |
+          echo "Triggering Deta Space deployment..."
+          curl -X POST \
+            -H "Authorization: Bearer $DETA_SPACE_TOKEN" \
+            "https://api.deta.space/v1/projects/$DETA_PROJECT_ID/deployments" 

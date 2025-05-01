@@ -35,7 +35,6 @@ def get_locale(lang: str) -> dict:
         return json.load(f)
 
 # /start handler
-@dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
     locale = get_locale('en')
     kb = types.InlineKeyboardMarkup(row_width=3)
@@ -49,7 +48,6 @@ async def send_welcome(message: types.Message):
         await message.answer_photo(photo, caption=locale.get('welcome', ''), reply_markup=kb)
 
 # Language change handler
-@dp.callback_query_handler(lambda c: c.data and c.data.startswith('lang_'))
 async def change_lang(callback_query: types.CallbackQuery):
     lang = callback_query.data.split('_', 1)[1]
     locale = get_locale(lang)
@@ -63,15 +61,19 @@ async def change_lang(callback_query: types.CallbackQuery):
     await callback_query.answer()
 
 # Global error handler
-@dp.errors_handler()
 async def handle_errors(update, exception):
     logger.exception(f"Unhandled exception in update {update}: {exception}")
     return True
 
 # Fallback handler for unrecognized messages
-@dp.message_handler()
 async def fallback(message: types.Message):
     await message.reply("Команда не распознана. Попробуйте /start.")
+
+# Register Aiogram handlers (v3 style)
+dp.message.register(send_welcome, commands=['start'])
+dp.callback_query.register(change_lang, lambda c: c.data and c.data.startswith('lang_'))
+dp.errors.register(handle_errors)
+dp.message.register(fallback)
 
 # Create FastAPI app
 app = FastAPI()

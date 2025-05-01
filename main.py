@@ -3,7 +3,8 @@ import os
 import json
 import logging
 from aiogram import Bot, Dispatcher, types
-from aiogram.filters import Command, Text
+from aiogram.filters import Command
+from aiogram.filters import Text
 from dotenv import load_dotenv
 
 # Logging

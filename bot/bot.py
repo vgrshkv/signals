@@ -1,10 +1,10 @@
 import os
 import json
-import asyncio
+from aiogram.utils import executor
 from aiogram import Bot, Dispatcher, types
-from aiogram.filters import Command
-from aiogram.filters.text import Text
 import logging
+from aiogram.filters import Command
+from aiogram.filters import Text
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -35,6 +35,7 @@ def get_locale(lang: str) -> dict:
         return json.load(f)
 
 # Обработчик /start
+@dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
     logger.info(f"Received /start from user {message.from_user.id}")
     locale = get_locale('en')
@@ -49,6 +50,7 @@ async def send_welcome(message: types.Message):
         await message.answer_photo(photo, caption=locale.get('welcome', ''), reply_markup=kb)
 
 # Обработчик статуса языка
+@dp.callback_query_handler(lambda c: c.data and c.data.startswith('lang_'))
 async def change_lang(callback_query: types.CallbackQuery):
     logger.info(f"Language change callback: {callback_query.data}")
     lang = callback_query.data.split('_', 1)[1]
@@ -63,6 +65,7 @@ async def change_lang(callback_query: types.CallbackQuery):
     await callback_query.answer()
 
 # Add a global error handler to catch and log exceptions
+@dp.errors_handler()
 async def handle_errors(update, exception):
     logger.exception(f"Unhandled exception in update {update}: {exception}")
     return True
@@ -73,15 +76,11 @@ async def on_startup(dp):
     logger.info('Webhook cleared, pending updates dropped')
 
 # Add fallback handler to catch any unhandled messages and help debug
+@dp.message_handler()
 async def fallback(message: types.Message):
     logger.info(f"Received unhandled message: {message.text}")
     await message.reply("Команда не распознана. Попробуйте /start.")
 
 if __name__ == '__main__':
-    # Register handlers in Aiogram v3 style
-    dp.message.register(send_welcome, Command('start'))
-    dp.callback_query.register(change_lang, Text(startswith='lang_'))
-    dp.errors.register(handle_errors)
-    dp.message.register(fallback)
     logger.info('Starting polling of Telegram updates')
-    asyncio.run(dp.start_polling(bot, skip_updates=True, on_startup=on_startup)) 
+    executor.start_polling(dp, skip_updates=True, on_startup=on_startup) 

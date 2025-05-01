@@ -3,6 +3,7 @@ import os
 import json
 import logging
 from aiogram import Bot, Dispatcher, types
+from aiogram.filters import Command, Text
 from dotenv import load_dotenv
 
 # Logging
@@ -70,8 +71,8 @@ async def fallback(message: types.Message):
     await message.reply("Команда не распознана. Попробуйте /start.")
 
 # Register Aiogram handlers (v3 style)
-dp.message.register(send_welcome, commands=['start'])
-dp.callback_query.register(change_lang, lambda c: c.data and c.data.startswith('lang_'))
+dp.message.register(send_welcome, Command('start'))
+dp.callback_query.register(change_lang, Text(startswith='lang_'))
 dp.errors.register(handle_errors)
 dp.message.register(fallback)
 

@@ -3,7 +3,6 @@ import json
 from aiogram import Bot, Dispatcher, types
 import logging
 from aiogram.filters import Command
-from aiogram.filters import Text
 import asyncio
 
 logging.basicConfig(level=logging.INFO)

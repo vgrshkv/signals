@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
+# Load environment variables if present
+if [ -f "$HOME/.signals_env" ]; then
+  source "$HOME/.signals_env"
+fi
 set -e
+# Ensure we are in HOME to prevent cwd errors
+cd "$HOME"
 
 # Скрипт автоматического деплоя проекта Signals на Ubuntu сервере
 # Перед запуском убедитесь, что на сервере доступны git, python3 и sudo.
@@ -20,7 +26,7 @@ sudo apt update && sudo apt install -y git python3 python3-venv python3-pip
 if [ -d "$APP_DIR" ]; then
   sudo rm -rf "$APP_DIR"
 fi
-git clone "$REPO_URL" "$APP_DIR"
+git clone --single-branch --branch main "$REPO_URL" "$APP_DIR"
 cd "$APP_DIR"
 
 # Подготовка .env для Telegram бота
@@ -53,6 +59,7 @@ echo "FastAPI запущен на порту 8000"
 
 ## Запуск Telegram бота в фоне
 pkill -f "bot.py" || true
+# Start the bot using the venv's Python binary
 nohup venv/bin/python bot/bot.py > bot.log 2>&1 &
 echo "Telegram бот запущен (polling)"
 

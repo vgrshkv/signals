@@ -1,7 +1,9 @@
 import os
 import json
-from aiogram.utils import executor
+import asyncio
 from aiogram import Bot, Dispatcher, types
+from aiogram.filters import Command
+from aiogram.filters.text import Text
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -77,9 +79,9 @@ async def fallback(message: types.Message):
 
 if __name__ == '__main__':
     # Register handlers in Aiogram v3 style
-    dp.message.register(send_welcome, commands=['start'])
-    dp.callback_query.register(change_lang, lambda c: c.data and c.data.startswith('lang_'))
+    dp.message.register(send_welcome, Command('start'))
+    dp.callback_query.register(change_lang, Text(startswith='lang_'))
     dp.errors.register(handle_errors)
     dp.message.register(fallback)
     logger.info('Starting polling of Telegram updates')
-    executor.start_polling(dp, skip_updates=True, on_startup=on_startup) 
+    asyncio.run(dp.start_polling(bot, skip_updates=True, on_startup=on_startup)) 

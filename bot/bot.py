@@ -4,11 +4,14 @@ from aiogram import Bot, Dispatcher, types
 import logging
 from aiogram.filters import Command
 import asyncio
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-API_TOKEN = os.getenv('API_TOKEN', '8059789021:AAGwqdPR_cF_Z1VbDooFimdmzcWIbwpd5nk')
+API_TOKEN = os.getenv('API_TOKEN', '8059789021:AAHEZfzCIK9vN11GBrRi_5c5--hLs_cU8Es')
 # Короткое имя мини-приложения, настроенное в BotFather
 GAME_SHORT_NAME = os.getenv('GAME_SHORT_NAME', 'mines_hack')
 bot = Bot(token=API_TOKEN)

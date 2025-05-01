@@ -41,6 +41,9 @@ GAME_SHORT_NAME=$GAME_SHORT_NAME
 EOF
 
 echo ".env файл создан в $ENV_FILE"
+set -a
+source "$ENV_FILE"
+set +a
 
 ## Setup single Python virtual environment
 if [ ! -d venv ]; then

@@ -6,6 +6,9 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv()
+
 # Logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

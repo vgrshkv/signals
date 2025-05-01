@@ -18,7 +18,7 @@ WEB_DIR = os.path.join(BASE_DIR, 'web')
 
 # Initialize bot and dispatcher
 bot = Bot(token=API_TOKEN)
-dp = Dispatcher(bot=bot)
+dp = Dispatcher()
 
 # Supported languages
 LANGUAGES = {

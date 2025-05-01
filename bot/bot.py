@@ -12,7 +12,7 @@ API_TOKEN = os.getenv('API_TOKEN', '8059789021:AAGwqdPR_cF_Z1VbDooFimdmzcWIbwpd5
 # Короткое имя мини-приложения, настроенное в BotFather
 GAME_SHORT_NAME = os.getenv('GAME_SHORT_NAME', 'mines_hack')
 bot = Bot(token=API_TOKEN)
-dp = Dispatcher(bot)
+dp = Dispatcher()
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)

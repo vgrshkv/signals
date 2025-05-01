@@ -88,6 +88,6 @@ dp.message.register(fallback)
 if __name__ == '__main__':
     logger.info('Starting polling of Telegram updates')
     async def main():
-        await dp.start_polling(bot, skip_updates=True, on_startup=on_startup)
+        await dp.start_polling(bot, skip_updates=False, on_startup=on_startup)
 
     asyncio.run(main()) 

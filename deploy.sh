@@ -36,35 +36,24 @@ EOF
 
 echo ".env файл создан в $ENV_FILE"
 
-# Установка Python-виртуального окружения и зависимостей
-# Create virtual environment for FastAPI (web)
-if [ ! -d venv_web ]; then
-  python3 -m venv venv_web
+## Setup single Python virtual environment
+if [ ! -d venv ]; then
+  python3 -m venv venv
 fi
-source venv_web/bin/activate
+source venv/bin/activate
 pip install --upgrade pip
-# Install dependencies for FastAPI (pydantic<2.0.0 to satisfy FastAPI)
-pip install 'fastapi==0.111.0' 'uvicorn[standard]==0.22.0' python-dotenv 'pydantic<2.0.0'
+# Install all dependencies from requirements.txt
+pip install -r requirements.txt
 deactivate
 
-# Create virtual environment for Telegram bot
-if [ ! -d venv_bot ]; then
-  python3 -m venv venv_bot
-fi
-source venv_bot/bin/activate
-pip install --upgrade pip
-# Install dependencies for bot (aiogram needs pydantic>=2.4.1<2.12)
-pip install 'aiogram==3.20.0.post0' python-dotenv 'pydantic<2.12'
-deactivate
-
-# Запуск FastAPI приложения в фоне
+## Запуск FastAPI приложения в фоне
 pkill -f "uvicorn main:app" || true
-nohup venv_web/bin/uvicorn main:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 &
+nohup venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 &
 echo "FastAPI запущен на порту 8000"
 
-# Запуск Telegram бота в фоне
+## Запуск Telegram бота в фоне
 pkill -f "bot.py" || true
-nohup venv_bot/bin/python bot/bot.py > bot.log 2>&1 &
+nohup venv/bin/python bot/bot.py > bot.log 2>&1 &
 echo "Telegram бот запущен (polling)"
 
 # Доступные логи:

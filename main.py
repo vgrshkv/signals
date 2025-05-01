@@ -3,6 +3,7 @@ import os
 import json
 import logging
 from aiogram import Bot, Dispatcher, types
+from dotenv import load_dotenv
 
 # Logging
 logging.basicConfig(level=logging.INFO)
@@ -101,4 +102,7 @@ async def telegram_webhook(request: Request, token: str):
 async def on_shutdown():
     await bot.delete_webhook(drop_pending_updates=True)
 
-# For local testing via uvicorn: uvicorn main:app --reload 
+# For local testing via uvicorn: uvicorn main:app --reload
+
+# Load environment variables from .env file
+load_dotenv() 
